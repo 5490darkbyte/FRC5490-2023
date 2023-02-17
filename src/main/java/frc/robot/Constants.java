@@ -22,26 +22,27 @@ public final class Constants {
 
     public static final class DriveConstants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 4;
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 1 * 2 * Math.PI;
 
-        public static final double kTrackWidth = Units.inchesToMeters(21);
+        public static final double kTrackWidth = Units.inchesToMeters(22);
             // Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(25.5);
+        public static final double kWheelBase = Units.inchesToMeters(22);
             // Distance between front and back wheels
-
+        
+        //Changed this to what I think is correct, not the tutorial
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
     
         public static final int kFrontLeftDriveMotorPort = 7;
         public static final int kBackLeftDriveMotorPort = 5;
         public static final int kFrontRightDriveMotorPort = 1;
         public static final int kBackRightDriveMotorPort = 3;
     
-        public static final int kFrontLeftTurningMotorPort = 6;
-        public static final int kBackLeftTurningMotorPort = 8;
+        public static final int kFrontLeftTurningMotorPort = 8;
+        public static final int kBackLeftTurningMotorPort = 6;
         public static final int kFrontRightTurningMotorPort = 2;
         public static final int kBackRightTurningMotorPort = 4;
     
@@ -62,8 +63,8 @@ public final class Constants {
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1.0;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1.0;
 
         public static int pigeon = 21;
 
