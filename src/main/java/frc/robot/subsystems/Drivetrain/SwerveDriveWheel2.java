@@ -38,7 +38,7 @@ public class SwerveDriveWheel2 {
         //driveEncoder = driveMotor.getEncoder();
         turningEncoder = new CANCoder(turningEncoderId);
 
-        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
+        turningPidController = new PIDController(ModuleConstants.kPTurning, 0.0, 0.0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
     }
@@ -83,10 +83,10 @@ public class SwerveDriveWheel2 {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        driveMotor.set(0);//state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
         
-        turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
     }
 
