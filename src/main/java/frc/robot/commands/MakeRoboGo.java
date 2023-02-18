@@ -41,7 +41,7 @@ public class MakeRoboGo extends CommandBase{
         // 1. Get real-time joystick inputs
         double xSpeed = 0;//xSpdFunction.get();
         double ySpeed = 0;//ySpdFunction.get();
-        double turningSpeed = 0.1;//turningSpdFunction.get();
+        double turningSpeed = 0.5;//turningSpdFunction.get();
 
         // 2. Apply deadband
         xSpeed = Math.abs(xSpeed) > Constants.OIConstants.kDeadband ? xSpeed : 0.0;
@@ -51,9 +51,10 @@ public class MakeRoboGo extends CommandBase{
         // 3. Make the driving smoother
         //xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         //ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed)
-                * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        /*turningSpeed = turningLimiter.calculate(turningSpeed)
+                * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;*/
 
+        turningSpeed = 0.628;
         // 4. Construct desired chassis speeds relative to field
         ChassisSpeeds chassisSpeeds;
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, m_drivetrain.getRotation2d());

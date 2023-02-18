@@ -2,6 +2,7 @@ package frc.robot.subsystems.Drivetrain;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.mathFunctions;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -83,7 +84,10 @@ public class SwerveDriveWheel2 {
         }
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(0.25);//turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        
+        
+        turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
     }
 
     public void stop() {
