@@ -86,7 +86,7 @@ public class SwerveDriveWheel2 {
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
         
-        turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
     }
 
