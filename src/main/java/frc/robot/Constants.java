@@ -51,6 +51,11 @@ public final class Constants {
         public static final int kFrontRightTurningEncoderPort = 13;
         public static final int kBackRightTurningEncoderPort = 14;
 
+        public static final int kFrontLeftDriveEncoderPort = 30;
+        public static final int kBackLeftDriveEncoderPort = 31;
+        public static final int kFrontRightDriveEncoderPort = 32;
+        public static final int kBackRightDriveEncoderPort = 33;
+
         public static final double kFrontLeftTurningEncoderOffsetDeg = 0.0;
         public static final double kBackLeftTurningEncoderOffsetDeg = 0.0;
         public static final double kFrontRightTurningEncoderOffsetDeg = 0.0;
@@ -60,6 +65,11 @@ public final class Constants {
         public static final boolean kBackLeftTurningEncoderReversed = false;
         public static final boolean kFrontRightTurningEncoderReversed = false;
         public static final boolean kBackRightTurningEncoderReversed = false;
+
+        public static final boolean kFrontLeftDriveEncoderReversed = false;
+        public static final boolean kBackLeftDriveEncoderReversed = false;
+        public static final boolean kFrontRightDriveEncoderReversed = false;
+        public static final boolean kBackRightDriveEncoderReversed = false;        
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;

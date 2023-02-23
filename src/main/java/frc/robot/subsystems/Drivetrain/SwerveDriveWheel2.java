@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.RelativeEncoder;
 
 public class SwerveDriveWheel2 {
@@ -16,7 +17,7 @@ public class SwerveDriveWheel2 {
     private final CANSparkMax driveMotor;
     private final CANSparkMax turningMotor;
 
-    //private final RelativeEncoder driveEncoder;
+    private final RelativeEncoder driveEncoder;
     private final CANCoder turningEncoder;
 
     private final PIDController turningPidController;
@@ -24,7 +25,7 @@ public class SwerveDriveWheel2 {
     private final boolean turningEncoderReversedBool;
     private final double turningEncoderOffsetRad;
 
-    public SwerveDriveWheel2(int driveMotorId, int turningMotorId, int turningEncoderId, double turningEncoderOffset, boolean turningEncoderReversed) {
+    public SwerveDriveWheel2(int driveMotorId, int turningMotorId, int turningEncoderId, double turningEncoderOffset, boolean driveEncoderReversed, boolean turningEncoderReversed) {
 
         turningEncoderOffsetRad = turningEncoderOffset * (180/Math.PI);
         turningEncoderReversedBool = turningEncoderReversed;
@@ -32,11 +33,13 @@ public class SwerveDriveWheel2 {
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
-        //driveMotor.setInverted(driveMotorReversed);
+        driveMotor.setInverted(driveEncoderReversed);
         turningMotor.setInverted(turningEncoderReversed);
 
-        //driveEncoder = driveMotor.getEncoder();
+        driveEncoder = driveMotor.getEncoder();
         turningEncoder = new CANCoder(turningEncoderId);
+
+
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0.0, 0.0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -44,8 +47,7 @@ public class SwerveDriveWheel2 {
     }
 
     public double getDrivePosition() {
-        return 0;
-        //return driveEncoder.getPosition();
+        return driveEncoder.getPosition();
     } 
 
     public double getTurningPosition() {
@@ -53,8 +55,7 @@ public class SwerveDriveWheel2 {
     }
 
      public double getDriveVelocity() {
-        return 0;
-        //return driveEncoder.getVelocity();
+        return driveEncoder.getVelocity();
     } 
 
     public double getTurningVelocity() {

@@ -18,13 +18,15 @@ public class Drivetrain2 extends SubsystemBase{
         Constants.DriveConstants.kFrontLeftTurningMotorPort,
         Constants.DriveConstants.kFrontLeftTurningEncoderPort,
         Constants.DriveConstants.kFrontLeftTurningEncoderOffsetDeg,
+        Constants.DriveConstants.kFrontLeftDriveEncoderReversed,
         Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
 
     private final SwerveDriveWheel2 frontRight = new SwerveDriveWheel2(
         Constants.DriveConstants.kFrontRightDriveMotorPort,
         Constants.DriveConstants.kFrontRightTurningMotorPort,
-        Constants.DriveConstants.kFrontRightTurningEncoderPort,
+        Constants.DriveConstants.kFrontRightDriveMotorPort,
         Constants.DriveConstants.kFrontRightTurningEncoderOffsetDeg,
+        Constants.DriveConstants.kFrontRightDriveEncoderReversed,
         Constants.DriveConstants.kFrontRightTurningEncoderReversed);
 
     private final SwerveDriveWheel2 backLeft = new SwerveDriveWheel2(
@@ -32,6 +34,7 @@ public class Drivetrain2 extends SubsystemBase{
         Constants.DriveConstants.kBackLeftTurningMotorPort,
         Constants.DriveConstants.kBackLeftTurningEncoderPort,
         Constants.DriveConstants.kBackLeftTurningEncoderOffsetDeg,
+        Constants.DriveConstants.kBackLeftDriveEncoderReversed,
         Constants.DriveConstants.kBackLeftTurningEncoderReversed);
 
     private final SwerveDriveWheel2 backRight = new SwerveDriveWheel2(
@@ -39,6 +42,7 @@ public class Drivetrain2 extends SubsystemBase{
         Constants.DriveConstants.kBackRightTurningMotorPort,
         Constants.DriveConstants.kBackRightTurningEncoderPort,
         Constants.DriveConstants.kBackRightTurningEncoderOffsetDeg,
+        Constants.DriveConstants.kBackRightDriveEncoderReversed,
         Constants.DriveConstants.kBackRightTurningEncoderReversed);
 
     final WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.DriveConstants.pigeon);
