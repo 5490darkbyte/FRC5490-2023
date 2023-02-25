@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 
 public class SwerveDriveWheel2 {
     
@@ -19,9 +21,11 @@ public class SwerveDriveWheel2 {
     private final CANSparkMax turningMotor;
 
     private final RelativeEncoder driveEncoder;
-    private final CANCoder turningEncoder;
+    private final RelativeEncoder turningEncoder;
+    private final CANCoder absoluteEncoder;
 
-    private final PIDController turningPidController;
+    //private final PIDController turningPidController;
+    private final SparkMaxPIDController turningPidController2;
 
     private final boolean turningEncoderReversedBool;
     private final double turningEncoderOffsetRad;
@@ -38,13 +42,26 @@ public class SwerveDriveWheel2 {
         turningMotor.setInverted(turningEncoderReversed);
 
         driveEncoder = driveMotor.getEncoder();
-        turningEncoder = new CANCoder(turningEncoderId);
+        turningEncoder = turningMotor.getEncoder();
+        absoluteEncoder = new CANCoder(turningEncoderId);
+
+        turningEncoder.setPositionConversionFactor(0.5);
+        driveEncoder.setPositionConversionFactor(1);
 
 
 
-        turningPidController = new PIDController(ModuleConstants.kPTurning, 0.0, 0.0);
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        //turningPidController = new PIDController(ModuleConstants.kPTurning, 0.0, 0.0);
 
+        turningPidController2 = turningMotor.getPIDController();
+        turningPidController2.setP(ModuleConstants.kPTurning);
+
+        //turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        turningPidController2.setPositionPIDWrappingEnabled(true);
+        turningPidController2.setPositionPIDWrappingMaxInput(10*Math.PI);
+        turningPidController2.setPositionPIDWrappingMinInput(8*Math.PI);
+
+
+            resetEncoders();
     }
 
     public double getDrivePosition() {
@@ -56,7 +73,7 @@ public class SwerveDriveWheel2 {
     }
     
     public double getAbsoluteTurningPosition(){
-        return turningEncoder.getAbsolutePosition();
+        return absoluteEncoder.getAbsolutePosition();
     }
 
      public double getDriveVelocity() {
@@ -75,8 +92,8 @@ public class SwerveDriveWheel2 {
     }
 
     public void resetEncoders() {
-        //driveEncoder.setPosition(0);
-        //turningEncoder.setPosition(0);
+        driveEncoder.setPosition(0);
+        turningEncoder.setPosition(0);
     }
 
     public SwerveModuleState getState() {
@@ -84,15 +101,15 @@ public class SwerveDriveWheel2 {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+        if (Math.abs(state.speedMetersPerSecond) < 0.01) {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, new Rotation2d(getTurningPosition())); //getState().angle
-        driveMotor.set(0);//state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        // state = SwerveModuleState.optimize(state, new Rotation2d(getTurningPosition())); //getState().angle
+        driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
-
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        turningPidController2.setReference(state.angle.getRadians(), ControlType.kPosition);
+        //turningMotor.set(turningPidController.calculate(getTurningPosition(), 3.14));//
         //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
         SmartDashboard.putNumber("Desired Position " + turningMotor.getDeviceId(), state.angle.getRadians());
     }

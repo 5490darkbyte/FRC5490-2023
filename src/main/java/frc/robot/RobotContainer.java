@@ -27,7 +27,7 @@ public class RobotContainer {
 	public RobotContainer() {
         m_drivetrain.setDefaultCommand(new MakeRoboGo(m_drivetrain,
             () -> -driverController.getLeftY(),
-            () -> driverController.getLeftX(),
+            () -> -driverController.getLeftX(),
             () -> driverController.getRightX()));
 
         configureButtonBindings();

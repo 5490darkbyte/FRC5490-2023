@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain2;
@@ -39,8 +40,8 @@ public class MakeRoboGo extends CommandBase{
     @Override
     public void execute() {
         // 1. Get real-time joystick inputs
-        double xSpeed = 0;//xSpdFunction.get();
-        double ySpeed = 0;//ySpdFunction.get();
+        double xSpeed = xSpdFunction.get();
+        double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get();
 
         // 2. Apply deadband
@@ -49,8 +50,8 @@ public class MakeRoboGo extends CommandBase{
         turningSpeed = Math.abs(turningSpeed) > Constants.OIConstants.kDeadband ? turningSpeed : 0.0;
 
         // 3. Make the driving smoother
-        //xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        //ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
         
         //turningSpeed = 0.658;
 
@@ -66,6 +67,11 @@ public class MakeRoboGo extends CommandBase{
 
         // 6. Output each module states to wheels
         m_drivetrain.setModuleStates(moduleStates);
+
+        SmartDashboard.putNumber("LeftStickX", xSpdFunction.get());
+        SmartDashboard.putNumber("LeftStickY", ySpdFunction.get());
+        SmartDashboard.putNumber("RightStickX", turningSpdFunction.get());
+
     }
 
     @Override
