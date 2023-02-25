@@ -83,7 +83,7 @@ public class SwerveDriveWheel2 {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, getState().angle);
+        state = SwerveModuleState.optimize(state, new Rotation2d(getTurningPosition())); //getState().angle
         driveMotor.set(0);//state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
         
