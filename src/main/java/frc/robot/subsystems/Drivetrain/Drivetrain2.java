@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Drivetrain2 extends SubsystemBase{
@@ -65,7 +66,7 @@ public class Drivetrain2 extends SubsystemBase{
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(-gyro.getAngle(), 360);
     }
 
     public Rotation2d getRotation2d() {
@@ -95,5 +96,12 @@ public class Drivetrain2 extends SubsystemBase{
         backRight.setDesiredState(desiredStates[3]);
     }
 
+@Override
+    public void periodic() {
+        SmartDashboard.putNumber("Relative Position 8",frontLeft.getTurningPosition());
+        SmartDashboard.putNumber("Relative Position 2",frontRight.getTurningPosition());
+        SmartDashboard.putNumber("Relative Position 6",backLeft.getTurningPosition());
+        SmartDashboard.putNumber("Relative Position 4",backRight.getTurningPosition());
+    }
 
 }

@@ -10,6 +10,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import com.revrobotics.RelativeEncoder;
 
 public class SwerveDriveWheel2 {
@@ -53,6 +54,10 @@ public class SwerveDriveWheel2 {
     public double getTurningPosition() {
         return turningEncoder.getPosition();
     }
+    
+    public double getAbsoluteTurningPosition(){
+        return turningEncoder.getAbsolutePosition();
+    }
 
      public double getDriveVelocity() {
         return driveEncoder.getVelocity();
@@ -86,10 +91,12 @@ public class SwerveDriveWheel2 {
         state = SwerveModuleState.optimize(state, new Rotation2d(getTurningPosition())); //getState().angle
         driveMotor.set(0);//state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
-        
+
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
+        SmartDashboard.putNumber("Desired Position " + turningMotor.getDeviceId(), state.angle.getRadians());
     }
+
 
     public void stop() {
         driveMotor.set(0);
