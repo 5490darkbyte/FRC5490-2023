@@ -13,6 +13,8 @@ public class RobotMap {
     public static int rightBackSteerMotor = 4;
     public static int rightFrontSteerMotor = 2;
 
+    public static int shoulderMotor = 11;
+    public static int elbowMotor = 12;
     public static int wristMotor = 9;
     public static int gripperMotor = 10;
 
@@ -23,4 +25,10 @@ public class RobotMap {
     public static int rightFrontEncoder = 13;
 
     public static int pigeon = 21;
+
+    public static int shoulderEncoder = 17;
+    public static int elbowEncoder = 18;
+    public static int wristEncoder = 19;
+    public static int gripperEncoder = 20;
+
 }

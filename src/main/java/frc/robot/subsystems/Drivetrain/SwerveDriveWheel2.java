@@ -2,7 +2,6 @@ package frc.robot.subsystems.Drivetrain;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.mathFunctions;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 public class SwerveDriveWheel2 {
     
@@ -24,16 +24,20 @@ public class SwerveDriveWheel2 {
     private final RelativeEncoder turningEncoder;
     private final CANCoder absoluteEncoder;
 
-    //private final PIDController turningPidController;
+    public final PIDController turningPidController;
     private final SparkMaxPIDController turningPidController2;
 
     private final boolean turningEncoderReversedBool;
     private final double turningEncoderOffsetRad;
 
-    public SwerveDriveWheel2(int driveMotorId, int turningMotorId, int turningEncoderId, double turningEncoderOffset, boolean driveEncoderReversed, boolean turningEncoderReversed) {
+    private final double offset;
+
+    public SwerveDriveWheel2(int driveMotorId, int turningMotorId, int turningEncoderId, double turningEncoderOffset, boolean driveEncoderReversed, boolean turningEncoderReversed, double offset) {
 
         turningEncoderOffsetRad = turningEncoderOffset * (180/Math.PI);
         turningEncoderReversedBool = turningEncoderReversed;
+
+        this.offset = offset;
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -48,14 +52,18 @@ public class SwerveDriveWheel2 {
         turningEncoder.setPositionConversionFactor(0.5);
         driveEncoder.setPositionConversionFactor(1);
 
+        //instantiate PID for turning motor
+        turningPidController = new PIDController(DriveConstants.kTurningPIDProportion, 0, 0);
+        turningPidController.enableContinuousInput(-180,180);
+        turningPidController.setTolerance(2);
 
+        resetAbsEncoder();
 
-        //turningPidController = new PIDController(ModuleConstants.kPTurning, 0.0, 0.0);
 
         turningPidController2 = turningMotor.getPIDController();
         turningPidController2.setP(ModuleConstants.kPTurning);
 
-        //turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
         turningPidController2.setPositionPIDWrappingEnabled(true);
         turningPidController2.setPositionPIDWrappingMaxInput(10*Math.PI);
         turningPidController2.setPositionPIDWrappingMinInput(8*Math.PI);
@@ -73,7 +81,7 @@ public class SwerveDriveWheel2 {
     }
     
     public double getAbsoluteTurningPosition(){
-        return absoluteEncoder.getAbsolutePosition();
+        return absoluteEncoder.getAbsolutePosition()-offset;
     }
 
      public double getDriveVelocity() {
@@ -91,6 +99,11 @@ public class SwerveDriveWheel2 {
         return angle * (turningEncoderReversedBool ? -1.0 : 1.0);
     }
 
+    public void setTurnMotor(double turnSpeed){
+        turningMotor.set(turnSpeed);
+   }
+
+
     public void resetEncoders() {
         driveEncoder.setPosition(0);
         turningEncoder.setPosition(0);
@@ -99,6 +112,22 @@ public class SwerveDriveWheel2 {
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
+    
+
+    public void resetAbsEncoder(){
+        absoluteEncoder.setPositionToAbsolute();
+
+    }
+
+      //set motors to brake mode or coast mode
+      public void enableMotors(IdleMode mode) {
+        turningMotor.setIdleMode(mode);
+        driveMotor.setIdleMode(mode);
+        }
+
+
+    
+
 
     public void setDesiredState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.01) {
@@ -114,6 +143,11 @@ public class SwerveDriveWheel2 {
         SmartDashboard.putNumber("Desired Position " + turningMotor.getDeviceId(), state.angle.getRadians());
     }
 
+    public void setDriveMotor(double driveSpeed){
+        driveMotor.set(driveSpeed);
+    }
+
+    
 
     public void stop() {
         driveMotor.set(0);

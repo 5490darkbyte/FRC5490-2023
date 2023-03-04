@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /* import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command; */
@@ -20,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.Command; */
  * project.
  */
 public class Robot extends TimedRobot {
+  private Command m_autonomousCommand;
+  private Command m_teleopCommand;
   private static final String kDefaultAuto = "Default";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -35,6 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    CameraServer.startAutomaticCapture();
 
   }
 
@@ -65,21 +70,38 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
+  }
 
 /*     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
         m_autonomousCommand.schedule(); */
-  }
+  
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
 
-  /** This function is called once when teleop is enabled. */
-/*   @Override
-  public void teleopInit() {} */
+  }
+
+
+
+//This function is called once when teleop is enabled. 
+   @Override
+  public void teleopInit() {
+    // This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove this line or comment it out.
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+  
+  }
+  
 
   /** This function is called periodically during operator control. */
 /*   @Override

@@ -81,13 +81,26 @@ public final class Constants {
 
         public static int pigeon = 21;
 
+
+        public static final double kfrontRightOffset = 0;
+        public static final double kbackRightOffset = 0;
+        public static final double kbackLeftOffset = 0;
+        public static final double kfrontLeftOffset = 0;
+
+        public static final double kTurningPIDProportion = .006;
+    
+
     }
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
         public static final int kArmControllerPort = 1;
 
-/*         public static final int kDriverYAxis = 1;
+        public static final int kArmXButton = 3;
+        public static final int kArmYButton = 4;
+
+
+/*      public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 2;
         public static final int kDriverFieldOrientedButtonIdx = 4; */
