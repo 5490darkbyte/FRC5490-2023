@@ -28,7 +28,7 @@ public class TurnWheelsForward extends CommandBase {
         //Stop drive motors
         SwerveDrive.setDriveMotors(0);
 
-    
+        
     }
 
     @Override
@@ -38,7 +38,9 @@ public class TurnWheelsForward extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        SwerveDrive.resetRelativeEncoders();
+    }
 
 
     @Override

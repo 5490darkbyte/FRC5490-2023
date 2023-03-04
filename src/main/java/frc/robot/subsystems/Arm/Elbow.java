@@ -23,7 +23,6 @@ public void periodic() {
 
 public Elbow(){
     elbowMotor.setInverted(false);
-    //REMOVE THIS
     elbowMotor.setNeutralMode(NeutralMode.Brake);
 }
 
