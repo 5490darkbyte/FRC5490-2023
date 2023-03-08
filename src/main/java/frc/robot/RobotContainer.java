@@ -5,8 +5,6 @@ import frc.robot.commands.TurnWheelsForward;
 import frc.robot.commands.ArmCommands.ArmUp;
 import frc.robot.commands.ArmCommands.ElbowClearance;
 import frc.robot.commands.ArmCommands.ElbowStraight;
-import frc.robot.commands.ArmCommands.GripperClose;
-import frc.robot.commands.ArmCommands.GripperOpen;
 import frc.robot.commands.ArmCommands.ShoulderStraight;
 import frc.robot.subsystems.Arm.Elbow;
 import frc.robot.subsystems.Arm.Gripper;
@@ -15,8 +13,6 @@ import frc.robot.subsystems.Arm.Wrist;
 import frc.robot.subsystems.Drivetrain.Drivetrain2;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -57,7 +53,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return new TurnWheelsForward(m_drivetrain);
-        
         //return new SequentialCommandGroup(new GripperOpen(robotArm), new GripperClose(robotArm));
         
       }

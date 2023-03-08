@@ -80,13 +80,6 @@ public class Drivetrain2 extends SubsystemBase{
         backLeft.resetAbsEncoder();
         frontLeft.resetAbsEncoder();
       }
-    
-      public void resetRelativeEncoders(){
-        frontRight.resetEncoders();
-        backRight.resetEncoders();
-        backLeft.resetEncoders();
-        frontLeft.resetEncoders();
-      }
 
 
 
@@ -132,7 +125,7 @@ public class Drivetrain2 extends SubsystemBase{
             if (frontLeft.turningPidController.atSetpoint())
               frontLeft.setTurnMotor(0);
       
-            if (frontRight.turningPidController.atSetpoint() && backRight.turningPidController.atSetpoint() && frontLeft.turningPidController.atSetpoint() && backLeft.turningPidController.atSetpoint())
+            if (frontRight.turningPidController.atSetpoint() && backRight.turningPidController.atSetpoint() && backLeft.turningPidController.atSetpoint())
               return true;
             else
               return false;
@@ -146,7 +139,6 @@ public class Drivetrain2 extends SubsystemBase{
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
-
 
     /* public Pose2d getPose() {
         return odometer.getPoseMeters();

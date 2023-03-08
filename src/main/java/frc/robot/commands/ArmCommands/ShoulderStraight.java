@@ -22,6 +22,9 @@ public class ShoulderStraight extends CommandBase {
 
     @Override
     public void execute() { 
+        
+
+        double maxGravityFF = 0.15;
         robotShoulder.setShoulderMotor(0);
         
         //robotShoulder.setShoulderMotor(.17);
@@ -30,7 +33,6 @@ public class ShoulderStraight extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        
         robotShoulder.setShoulderMotor(0);
 
     }

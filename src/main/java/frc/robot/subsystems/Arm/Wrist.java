@@ -2,7 +2,6 @@ package frc.robot.subsystems.Arm;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,9 +27,8 @@ public class Wrist extends SubsystemBase{
 
     public Wrist(){
         wristMotor.setInverted(false);
-        wristMotor.setIdleMode(IdleMode.kBrake);
     }
-    
+
 
     public void setWristMotor(double power){
         wristMotor.set(power);
@@ -54,7 +52,6 @@ public class Wrist extends SubsystemBase{
         else 
         return false;
     }
-
 
 
     

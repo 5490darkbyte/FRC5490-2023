@@ -53,7 +53,6 @@ public class SwerveDriveWheel2 {
         driveEncoder.setPositionConversionFactor(1);
 
         //instantiate PID for turning motor
-        
         turningPidController = new PIDController(DriveConstants.kTurningPIDProportion, 0, 0);
         turningPidController.enableContinuousInput(-180,180);
         turningPidController.setTolerance(2);
@@ -138,7 +137,7 @@ public class SwerveDriveWheel2 {
         // state = SwerveModuleState.optimize(state, new Rotation2d(getTurningPosition())); //getState().angle
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         
-        turningPidController2.setReference(state.angle.getRadians(), ControlType.kPosition);//
+        turningPidController2.setReference(state.angle.getRadians(), ControlType.kPosition);
         //turningMotor.set(turningPidController.calculate(getTurningPosition(), 3.14));//
         //mathFunctions.turningSpeedCalculate(state.angle.getRadians()/0.02));
         SmartDashboard.putNumber("Desired Position " + turningMotor.getDeviceId(), state.angle.getRadians());

@@ -33,7 +33,7 @@ public class Gripper extends SubsystemBase{
     }
 
     public boolean gripperisOpen(){
-        if (gripperCANCoder.getAbsolutePosition() < 234)
+        if (gripperCANCoder.getAbsolutePosition() < 233.52)
         return true;
         else 
         return false;

@@ -17,7 +17,7 @@ public final class Constants {
         //public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         //public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
         //public static final double kTurningEncoderRPM2DegPerSec = kTurningEncoderRot2Deg / 60;
-        public static final double kPTurning = 0.085;
+        public static final double kPTurning = 0.12;
     }
 
     public static final class DriveConstants {
@@ -66,13 +66,13 @@ public final class Constants {
         public static final boolean kFrontRightTurningEncoderReversed = false;
         public static final boolean kBackRightTurningEncoderReversed = false;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveEncoderReversed = false;
         public static final boolean kBackLeftDriveEncoderReversed = true;
-        public static final boolean kFrontRightDriveEncoderReversed = true;
-        public static final boolean kBackRightDriveEncoderReversed = true;        
+        public static final boolean kFrontRightDriveEncoderReversed = false;
+        public static final boolean kBackRightDriveEncoderReversed = false;        
 
         // public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 1.8;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2.75;
 
         //public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 2*Math.PI;
@@ -105,7 +105,7 @@ public final class Constants {
         public static final int kDriverRotAxis = 2;
         public static final int kDriverFieldOrientedButtonIdx = 4; */
 
-        public static final double kDeadband = 0.1;
+        public static final double kDeadband = 0.05;
     }
     
 }
