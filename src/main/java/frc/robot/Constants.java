@@ -1,41 +1,20 @@
 package frc.robot;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-//import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 
 public final class Constants {
-    public static final class ModuleConstants {
-        public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-        public static final double kDriveMotorGearRatio = 1 / 8.14;
-        public static final double kTurningMotorGearRatio = 1 / 12.8;
-        //public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
-        //public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-        //public static final double kTurningEncoderRot2Deg = kTurningMotorGearRatio * 360.0;
-        //public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
-        //public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        //public static final double kTurningEncoderRPM2DegPerSec = kTurningEncoderRot2Deg / 60;
-        public static final double kPTurning = 0.085;
-    }
 
     public static final class DriveConstants {
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 4.4;
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 1 * 2 * Math.PI;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 3.66;
+        //public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 1 * 2 * Math.PI;
 
         public static final double kTrackWidth = Units.inchesToMeters(22);
             // Distance between right and left wheels
         public static final double kWheelBase = Units.inchesToMeters(22);
             // Distance between front and back wheels
+
         
-        //Changed this to what I think is correct, not the tutorial
-        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-    
+        //CAN IDs
         public static final int kFrontLeftDriveMotorPort = 7;
         public static final int kBackLeftDriveMotorPort = 5;
         public static final int kFrontRightDriveMotorPort = 1;
@@ -56,11 +35,7 @@ public final class Constants {
         public static final int kFrontRightDriveEncoderPort = 32;
         public static final int kBackRightDriveEncoderPort = 33;
 
-        public static final double kFrontLeftTurningEncoderOffsetDeg = 0.0;
-        public static final double kBackLeftTurningEncoderOffsetDeg = 0.0;
-        public static final double kFrontRightTurningEncoderOffsetDeg = 0.0;
-        public static final double kBackRightTurningEncoderOffsetDeg = 0.0;
-
+        //Invert encoders if necessary
         public static final boolean kFrontLeftTurningEncoderReversed = false;
         public static final boolean kBackLeftTurningEncoderReversed = false;
         public static final boolean kFrontRightTurningEncoderReversed = false;
@@ -71,41 +46,35 @@ public final class Constants {
         public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kBackRightDriveEncoderReversed = true;        
 
-        // public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 1.8;
+        //Max speeds and acceleration
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond - 1;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = Math.PI;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3.66;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = Math.PI;
 
-        //public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 2*Math.PI;
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 5.0;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 5.0;
-
-        public static int pigeon = 21;
-
-
-        public static final double kfrontRightOffset = 0;
-        public static final double kbackRightOffset = 0;
-        public static final double kbackLeftOffset = 0;
-        public static final double kfrontLeftOffset = 0;
-
-        public static final double kTurningPIDProportion = .006;
-    
-
+        //kP for PID controllers
+        //for moving wheels to facing forward
+        public static final double kTurningPIDProportion = .04;
+        //for lifting shoulder
+        public static final double kShoulderPIDProportion = .003;
+      
+        //for swerve drive
+        public static final double kPTurning = 0.085;
+        //for swerve drive
+        public static final double kPDriving = 0.003;
     }
 
     public static final class OIConstants {
+        //CAN IDs
         public static final int kDriverControllerPort = 0;
         public static final int kArmControllerPort = 1;
 
+        //XBox controller Button IDs
         public static final int kArmXButton = 3;
         public static final int kArmYButton = 4;
 
-
-/*      public static final int kDriverYAxis = 1;
-        public static final int kDriverXAxis = 0;
-        public static final int kDriverRotAxis = 2;
-        public static final int kDriverFieldOrientedButtonIdx = 4; */
-
-        public static final double kDeadband = 0.1;
+        //Joystick Deadband
+        public static final double kDeadband = 0.07;
     }
     
 }

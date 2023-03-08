@@ -1,76 +1,60 @@
 package frc.robot.commands;
-
-
-import java.util.function.Supplier;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain2;
 
 public class MakeRoboGo extends CommandBase{
-
-    //RobotContainer m_container;
-
     private final Drivetrain2 m_drivetrain;
-    private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    //private final Supplier<Boolean> fieldOrientedFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private double xSpeed, ySpeed, turningSpeed;
+    private boolean fieldRelative;
 
 
-
-    public MakeRoboGo(Drivetrain2 m_drivetrain, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction) {
+    public MakeRoboGo(Drivetrain2 m_drivetrain, double xSpeed, double ySpeed, double turningSpeed, boolean fieldRelative) {
+            //Create SlewRateLimiters for x, y, and turning speeds
+            xLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+            yLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+            turningLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+            this.xSpeed = xSpeed;
+            this.ySpeed=ySpeed;
+            this.turningSpeed = turningSpeed;
             this.m_drivetrain = m_drivetrain;
-            this.xSpdFunction = xSpdFunction;
-            this.ySpdFunction = ySpdFunction;
-            this.turningSpdFunction = turningSpdFunction;
-            this.xLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-            this.yLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-            this.turningLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+            this.fieldRelative = fieldRelative;
             
             addRequirements(m_drivetrain);
     }
 
 
+  
+
     @Override
     public void initialize() {}
 
+
     @Override
     public void execute() {
-        // 1. Get real-time joystick inputs
-        double xSpeed = xSpdFunction.get();
-        double ySpeed = ySpdFunction.get();
-        double turningSpeed = turningSpdFunction.get();
 
-        // 2. Apply deadband
-        xSpeed = Math.abs(xSpeed) > Constants.OIConstants.kDeadband ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > Constants.OIConstants.kDeadband ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > Constants.OIConstants.kDeadband ? turningSpeed : 0.0;
+            // Get the x speed. We are inverting this because Xbox controllers return negative values when we push forward.
+            xSpeed = -xLimiter.calculate(MathUtil.applyDeadband(xSpeed, 0.02)) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 
-        // 3. Make the driving smoother
-        xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
-        
-        //turningSpeed = 0.658;
-
-        turningSpeed = /*turningLimiter.calculate(*/turningSpeed* Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-
-        // 4. Construct desired chassis speeds relative to field
-        ChassisSpeeds chassisSpeeds;
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, m_drivetrain.getRotation2d());
+            // Get the y speed or sideways/strafe speed. We are inverting this because we want a positive value when we pull to 
+            //the left. Xbox controllers return positive values when you pull to the right by default.
+            ySpeed = -yLimiter.calculate(MathUtil.applyDeadband(ySpeed, 0.02)) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 
 
-        // 5. Convert chassis speeds to individual module states
-        SwerveModuleState[] moduleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+            // Get the rate of angular rotation. We are inverting this because we want a positive value when we pull to the left 
+            //(remember, CCW is positive in mathematics). Xbox controllers return positive values when you pull to the right by default.
+            turningSpeed = -turningLimiter.calculate(MathUtil.applyDeadband(turningSpeed, 0.02)) * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-        // 6. Output each module states to wheels
-        m_drivetrain.setModuleStates(moduleStates);
+            SmartDashboard.putNumber("xSpeed with Limiter", xSpeed); //should be meters per second
+            SmartDashboard.putNumber("ySpeed with Limiter", ySpeed); //should be meters per second
+            SmartDashboard.putNumber("turningSpeed with Limiter", turningSpeed); //should be radians per second
 
-        SmartDashboard.putNumber("LeftStickX", xSpdFunction.get());
-        SmartDashboard.putNumber("LeftStickY", ySpdFunction.get());
-        SmartDashboard.putNumber("RightStickX", turningSpdFunction.get());
+            //Call drive method with updated x, y, and turning speeds
+            m_drivetrain.drive(xSpeed, ySpeed, turningSpeed, fieldRelative);
 
     }
 
@@ -83,5 +67,7 @@ public class MakeRoboGo extends CommandBase{
     public boolean isFinished() {
         return false;
     }
+
+
 
 }

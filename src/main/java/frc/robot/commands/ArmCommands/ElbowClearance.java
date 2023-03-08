@@ -19,11 +19,12 @@ public class ElbowClearance extends CommandBase {
 
     @Override
     public void execute() { 
-        if (robotElbow.getElbowPosition() < 218)
+        if (robotElbow.getElbowPosition() < 213)
         robotElbow.setElbowMotor(-.06);
-        else if (robotElbow.getElbowPosition() > 216)
+        else if (robotElbow.getElbowPosition() > 217)
         robotElbow.setElbowMotor(.06);
-        }
+     
+    }
     
 
     @Override
@@ -34,8 +35,8 @@ public class ElbowClearance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(robotElbow.elbowisClear())
-        return true;
+       if(robotElbow.elbowisClear())
+         return true;
         else
         return false;
     }

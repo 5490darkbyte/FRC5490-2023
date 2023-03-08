@@ -22,7 +22,7 @@ public class RaiseWristUp extends CommandBase {
 
     @Override
     public void execute() { 
-        robotWrist.setWristMotor(-.06);
+        robotWrist.setWristMotor(-.09);
         }
     
 

@@ -18,14 +18,17 @@ public class RobotMap {
     public static int wristMotor = 9;
     public static int gripperMotor = 10;
 
-    //Encoder IDs
+    //Wheel Encoder IDs
     public static int leftBackEncoder = 15;
     public static int leftFrontEncoder = 16;
     public static int rightBackEncoder = 14;
     public static int rightFrontEncoder = 13;
 
+    //Gyro ID
     public static int pigeon = 21;
 
+
+    //Arm Encoder IDs
     public static int shoulderEncoder = 17;
     public static int elbowEncoder = 18;
     public static int wristEncoder = 19;

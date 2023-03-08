@@ -4,11 +4,14 @@ package frc.robot.commands.ArmCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm.Shoulder;
 
-public class PullShoulderBack extends CommandBase {
+public class ShoulderTestCmd extends CommandBase {
+    /**
+     *
+     */
     private final Shoulder robotShoulder; 
 
 
-    public PullShoulderBack(Shoulder robotShoulder) {
+    public ShoulderTestCmd(Shoulder robotShoulder) {
         this.robotShoulder = robotShoulder;
         addRequirements(robotShoulder);
     }
@@ -20,12 +23,13 @@ public class PullShoulderBack extends CommandBase {
 
     @Override
     public void execute() { 
-        robotShoulder.turnShoulderToDegrees(0);
+        robotShoulder.turnShoulderToDegrees(119);
         }
     
 
     @Override
     public void end(boolean interrupted) {
+        
 
     }
 
